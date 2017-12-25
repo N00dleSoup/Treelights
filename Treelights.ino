@@ -47,7 +47,6 @@ void fallingLights(){
 void hueSweep() {
   unsigned long timer = millis() % 5000;
   byte hue = timer / 20;
-  //FastLED.showColor(CHSV(hue, 255, 255));
   CRGB currColor = CHSV(hue, 255,200);
   for(int i = 0; i < NUM_LEDS; ++i) {
     leds[i] = currColor;
@@ -59,7 +58,7 @@ void setup() {
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   FastLED.addLeds<WS2812B, DATA_PIN, RGB>(leds, NUM_LEDS);
   FastLED.setBrightness(40);
-/* //Doesn't work for some reason????
+/* //Interrupts don't work for some reason????
   GIMSK = 0b00100000;
   PCMSK = 0b00000010;
 //  _SFR_BYTE(GIMSK) &= ~_BV(PCIE);
@@ -68,7 +67,6 @@ void setup() {
 */
 }
   
-/* Normal operation w/ pattern selection */
 void loop() {
   if (pattern == 0) {
     fallingLights();
@@ -86,6 +84,7 @@ void loop() {
   if (now >= lastSensor + sensorDelay) {
     lastSensor = now;
     int reading = analogRead(POT_PIN);
+    //Padding between the patterns so it doesn't flicker
     int padding = 40;
     int patternRange = (1023 - padding*(NUM_PATTERNS-1)) / NUM_PATTERNS;
     for(int i = 0; i < NUM_PATTERNS; ++i) {

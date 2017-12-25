@@ -1,8 +1,9 @@
-volatile bool val = true;
 #define FASTLED_ALLOW_INTERRUPTS 1
 #include <FastLED.h>
 
+#define cbi(sfr, bit) (_SFR_BYTE(sfr) &= ~_BV(bit))
 #define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(bit))
+
 
 #define NUM_LEDS 16
 #define DATA_PIN 0
